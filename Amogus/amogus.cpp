@@ -51,18 +51,20 @@ void gameIntro() {
     }
 }
 
-void chooseImpostor(vector<string>& Players, int& impostorIndex, string& self) {
+void chooseImpostor(vector<string>& Players, int& impostorIndex, string& impostorName, string& self) {
     srand(time(0));
     while (true) {
         impostorIndex = rand() % Players.size();
-        if (Players[impostorIndex] != self) { 
+        if (Players[impostorIndex] != self) {
+            impostorName = Players[impostorIndex];
             break;
         }
     }
 }
 
 
-void ejectPlayer(vector<string>& Players, string& player, string& self) {
+
+void ejectPlayer(vector<string>& Players, string& player, int& impostorIndex, string& impostorName, string& self) {
     if (player == self) {
         printDelay("You cannot eliminate yourself!");
         cout << endl;
@@ -72,14 +74,14 @@ void ejectPlayer(vector<string>& Players, string& player, string& self) {
     bool removed = false;
     for (size_t i = 0; i < Players.size(); i++) {
         if (Players[i] == player) {
-                system("cls");
-                Sleep(1000);
+            system("cls");
+            Sleep(1000);
             printDelay(player + " is now ejected.");
             cout << endl;
-                Sleep(1000);
+            Sleep(1000);
             printDelay(player + " is not the Impostor.");
             cout << endl;
-                Sleep(2000);
+            Sleep(2000);
             Players.erase(Players.begin() + i);
             removed = true;
             break;
@@ -89,17 +91,26 @@ void ejectPlayer(vector<string>& Players, string& player, string& self) {
     if (!removed) {
         printDelay("Invalid Name! Player not found.");
         cout << endl;
+    } else {
+        // Recalculate impostorIndex based on impostorName
+        impostorIndex = -1;
+        for (size_t i = 0; i < Players.size(); i++) {
+            if (Players[i] == impostorName) {
+                impostorIndex = i;
+                break;
+            }
+        }
     }
 }
 
-void killPlayer(vector<string>& Players, const string& impostorIndex, const string& self) {
+void killPlayer(vector<string>& Players, int& impostorIndex, string& impostorName, string& self) {
     srand(time(0));
     while (true) {
         int victimIndex = rand() % Players.size();
         string victim = Players[victimIndex];
 
-        if (victim != impostorIndex) {
-            if (victim == self) {
+        if (victim != impostorName) {  
+            if (victim == self) {  
                 system("cls");
                 Sleep(1000);
                 printDelay("Game Over! The impostor killed you.");
@@ -109,6 +120,15 @@ void killPlayer(vector<string>& Players, const string& impostorIndex, const stri
                 Sleep(1000);
                 printDelay(victim + " was killed by the impostor.");
                 Players.erase(Players.begin() + victimIndex);
+
+                impostorIndex = -1;
+                for (size_t i = 0; i < Players.size(); i++) {
+                    if (Players[i] == impostorName) {
+                        impostorIndex = i;
+                        break;
+                    }
+                }
+
                 Sleep(1000);
                 cout << endl;
                 break;
@@ -116,3 +136,4 @@ void killPlayer(vector<string>& Players, const string& impostorIndex, const stri
         }
     }
 }
+
