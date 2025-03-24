@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1742825809 source:c:\users\gabbi\documents\gabbicodeblocks\amogus\main.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	<vector>
+	"amogus.h"
+
+1742824377 c:\users\gabbi\documents\gabbicodeblocks\amogus\amogus.h
+	<vector>
+	<string>
+
+1742824397 source:c:\users\gabbi\documents\gabbicodeblocks\amogus\amogus.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	<vector>
+	"amogus.h"
+
