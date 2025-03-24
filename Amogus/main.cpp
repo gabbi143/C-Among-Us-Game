@@ -9,7 +9,7 @@
 using namespace std;
 
 int main() {
-    string player, guess;
+    string player, guess, impostorName;
     int maxPlayers, impostorIndex;
     vector<string> Players;
 
@@ -21,12 +21,12 @@ int main() {
         cin >> maxPlayers;
 
         if (cin.fail()) {
-            cin.clear(); 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
             printDelay("Invalid Input! Please enter a number greater than 2.");
             cout << endl;
-            continue; 
+            continue;
         }
 
         if (maxPlayers <= 2) {
@@ -37,6 +37,7 @@ int main() {
             break;
         }
     }
+    
     system("cls");
     cout << "Enter Your Name: ";
     cin.ignore();
@@ -67,49 +68,48 @@ int main() {
         }
     }
 
-
     system("cls");
-    chooseImpostor(Players, impostorIndex, self);
+chooseImpostor(Players, impostorIndex, impostorName, self);
 
-    while (true) {
-        cout << "The Impostor is Player Number: " << impostorIndex + 1 << endl << endl;
-        showUI(Players);
+while (true) {
+    cout << "The Impostor is Player Number: " << impostorIndex + 1 << endl << endl;
+    showUI(Players);
 
-        cout << "Your Guess: ";
-        getline(cin, guess);
+    cout << "Your Guess: ";
+    getline(cin, guess);
 
-        bool isValid = false;
-        for (const string& p : Players) {
-            if (p == guess) {
-                isValid = true;
-                break;
-            }
-        }
-
-        if (!isValid) {
-            system("cls");
-            printDelay("Invalid Name! Try again.");
-            cout << endl;
-            continue;
-        }
-
-        if (guess == Players[impostorIndex]) {
-            system("cls");
-            Sleep(1000);
-            printDelay(guess + " is now ejected.");
-            cout << endl;
-            Sleep(1000);
-            printDelay(guess + " is the Impostor. YOU WIN!");
-            return 0;
-        } else if (guess == self) {
-            system("cls");
-            printDelay("You cannot eliminate yourself!");
-            cout << endl;
-        } else {
-            ejectPlayer(Players, guess, self);
-            killPlayer(Players, Players[impostorIndex], self);
+    bool isValid = false;
+    for (const string& p : Players) {
+        if (p == guess) {
+            isValid = true;
+            break;
         }
     }
+
+    if (!isValid) {
+        system("cls");
+        printDelay("Invalid Name! Try again.");
+        cout << endl;
+        continue;
+    }
+
+    if (guess == Players[impostorIndex]) {
+        system("cls");
+        Sleep(1000);
+        printDelay(guess + " is now ejected.");
+        cout << endl;
+        Sleep(1000);
+        printDelay(guess + " is the Impostor. YOU WIN!");
+        return 0;
+    } else if (guess == self) {
+        system("cls");
+        printDelay("You cannot eliminate yourself!");
+        cout << endl;
+    } else {
+        ejectPlayer(Players, guess, impostorIndex, impostorName, self);
+        killPlayer(Players, impostorIndex, impostorName, self);
+    }
+}
 
     return 0;
 }
