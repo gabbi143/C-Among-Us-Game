@@ -54,8 +54,8 @@ void gameIntro() {
 void chooseImpostor(vector<string>& Players, int& impostorIndex, string& self) {
     srand(time(0));
     while (true) {
-        impostorIndex = rand() % Players.size(); // Generate a random index
-        if (Players[impostorIndex] != self) { // Ensure the impostor is not the player
+        impostorIndex = rand() % Players.size();
+        if (Players[impostorIndex] != self) { 
             break;
         }
     }
