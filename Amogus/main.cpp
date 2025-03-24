@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <vector>
 #include "amogus.h"
+#include <limits>
 
 using namespace std;
 
@@ -18,6 +19,15 @@ int main() {
     while (true) {
         cout << "Set max players count (greater than 2): ";
         cin >> maxPlayers;
+
+        if (cin.fail()) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            system("cls");
+            printDelay("Invalid Input! Please enter a number greater than 2.");
+            cout << endl;
+            continue; 
+        }
 
         if (maxPlayers <= 2) {
             system("cls");
